@@ -7,15 +7,15 @@ usage () {
   echo "$0 (db|rmq) <app>  # get db or rmq keys for <app>"
 }
 
-do_cmd () {
-  $CF env $1 | awk '/System-Provided:/{flag=1;next}/User-Provided:/{flag=0}flag'
-}
-
 if test -z $1; then
   echo "Provide an app or (db|rmq) at \$1"
   usage
   exit -1
 fi
+
+do_cmd () {
+  $CF env $1 | awk '/System-Provided:/{flag=1;next}/User-Provided:/{flag=0}flag'
+}
 
 case $1 in 
   db)
