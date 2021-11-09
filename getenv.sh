@@ -28,7 +28,7 @@ case $1 in
           sed 's/user-provided/user_provided/' | \
           $JQ '.VCAP_SERVICES | .user_provided[] | select(.instance_name=="cada-db")'
         ;;
-      alca|fiqa|kymc|prva|shda)
+      alca|fiqa|kymc|prva|shda|oddjob-server)
         do_cmd $2 | \
           sed 's/aws-rds-postgres/aws_rds_postgres/'| \
           $JQ '.VCAP_SERVICES | .aws_rds_postgres[0] | .credentials'
@@ -51,6 +51,18 @@ case $1 in
         ;;
       *)
         echo "No RabbitMQ for $2."
+        ;;
+    esac
+    ;;
+  sqs)
+    case $2 in
+      prtn)
+        do_cmd $2 | \
+          sed 's/user-provided/user_provided/' | \
+          $JQ '.VCAP_SERVICES | .user_provided[] | select(.name=="aws-sqs-service")'
+        ;;
+      *)
+        echo "No SQS for $2."
         ;;
     esac
     ;;
