@@ -37,7 +37,7 @@ case $1 in
         do_cmd $2 | \
           sed 's/aws-rds-postgres/aws_rds_postgres/' | \
           sed 's/user-provided/user_provided/' | \
-          $JQ '.VCAP_SERVICES | .user_provided[0] | select(.name=="document-db")' 
+          $JQ '.VCAP_SERVICES | .user_provided[0] | select(.name | startswith("document-db"))' 
         ;;
       *)
         echo "No db config for $2"
